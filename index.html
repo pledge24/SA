@@ -14,69 +14,65 @@
         * {
             font-family: 'Gowun Dodum', sans-serif;
         }
-
+        /*mytitle 클래스 꾸미기 */
         .mytitle {
-            height: 250px;
-            color: rgb(0, 0, 0);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            background-image: url('https://lh3.googleusercontent.com/proxy/UGBWQ4El8-m7cQL4U-Eo_AViCTaslrempY4_9ea7mxkRwBIhOOe2Om_l3YPHNn4bVMfVyZE1CAEp1IjqPVON6ie8qnJS6CZ4KaHYRw');
-            background-position: center;
-            background-size: cover;
+            height: 250px; /*클래스 높이*/
+            color: rgb(0, 0, 0); /*클래스 색상*/
+            display: flex; /*박스 모양*/
+            flex-direction: column; /* 방향 위아래*/
+            align-items: center; /* 글을 수직 가운데 정렬*/
+            justify-content: center; /* 글을 수평 가운데 정렬*/
+            background-image: url('https://images.unsplash.com/photo-1511992243105-2992b3fd0410?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
+            background-position: center; /*이미지 위치 가운데(center)*/
+            background-size: cover; /* 이미지가 다른것들을 침범하지 않게 함(크기에 맞게)*/
         }
-
         .mytitle>button {
-            width: 150px;
-            height: 50px;
-            background-color: transparent;
-            color: rgb(0, 0, 0);
-            border: 1px solid rgb(0, 0, 0);
-            border-radius: 5px;
-            margin-top: 20px;
+            width: 150px; /*버튼 넓이 */
+            height: 50px; /*버튼 높이 */
+            background-color: transparent; /*버튼배경 색상(투명) */
+            color: rgb(0, 0, 0); /*버튼 글자 색상*/
+            border: 1px solid rgb(0, 0, 0); /*버튼 테두리 선 , 색상 */
+            border-radius: 5px; /*버튼 둥글*/
+            margin-top: 20px; /*버튼 상단 여백 */
         }
 
         .mycards {
-            width: 1200px;
-            margin: 30px auto 0px auto;
+            width: 1200px; /*가로방향 크기*/
+            margin: 30px auto 0px auto; /*시계 방향 순서 12시,3,6,9시 방향 여백*/
         }
 
         .card-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            display: flex;  /*flex 기본값 (수평)으로 배치 , 오른쪽*/
+            justify-content: space-between; /*박스 모델 주 방향으로 요소 사이 분리*/
+            align-items: center; /*card-footer안에 요소 위,아래 방향으로 가운데 정렬*/
         }
 
-        .card-footer .text-body-secondary {
-            margin-right: auto;
+        .card-footer .text-body-secondary { /*card-footer 안에 있는 .text-body-secondary를 설정 */
+            margin-right: auto; /*오른쪽 여백을 최대한 밀어버린다 (왼쪽으로감)*/
         }
 
-        .card-footer .btn-primary {
-            margin-left: auto;
+        .card-footer .btn-primary { /*card-footer 안에 있는 btn-primary를 설정 (이것으로 위에 꼬릿말과 자세히보기 버튼 구역을 나눔) */
+            margin-left: auto; /*왼쪽 여백을 최대한 밀어버린다 (오른쪽으로감)*/
         }
 
         .popup {
-            display: none;
-            position: fixed;
+            display: none; /*처음 화면에서 팝업창이 보이지 않도록 none*/
+            position: fixed; /* 팝업 위치 고정 (스크롤 내려도 팝업창은 화면 고정) */
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 400px;
-            background-color: #fefefe;
-            padding: 20px;
-            border: 1px solid #888;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            text-align: center;
-            z-index: 999;
+            transform: translate(-50%, -50%); /*정중앙 고정*/
+            width: 300px; /*팝업 창 가로 크기*/
+            height: 400px; /*세로 크기*/
+            background-color: #ffffff; /*팝업 창 색상*/
+            padding: 20px; /*팝업 창 안 여백*/
+            border: 1px solid #949494; /*팝업 창 테두리 1px*/
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 1.5), 0 6px 20px 0 rgba(0, 0, 0, 1); /*팝업 박스 그림자 효과 가로 세로 흐림 번짐 색상 그림자 색상*/
+            text-align: center; /*팝업 텍스트 가운데로 정렬*/
+            z-index: 999; /*팝업 창이 다른것들과 겹쳐 보이지 않고록 다른것 보다위에 나타나게*/
         }
 
-        .show-popup {
-            cursor: pointer;
-        }
     </style>
-    <script type="module">
+    <script type = "module">
         // ---------------------- FireBase Begin----------------------
 
         // Firebase SDK 라이브러리 가져오기
@@ -104,73 +100,73 @@
 
         // ---------------------- FireBase End----------------------
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const showButtons = document.querySelectorAll('.show-popup');
-            const closeButtons = document.querySelectorAll('.close-popup');
+        document.addEventListener("DOMContentLoaded", function () { /*이벤트 리스너 추가(이벤트 발생할 때까지 기다린 후 이벤트에 응답)*/
+            const showButtons = document.querySelectorAll('.show-popup'); /*show-popup 들어간 모두 선택*/
+            const closeButtons = document.querySelectorAll('.close-popup'); /*close-popup 들어간 모두 선택*/
 
-            showButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const targetPopupId = button.getAttribute('data-target');
-                    const targetPopup = document.getElementById(targetPopupId);
-                    targetPopup.style.display = 'block';
+            showButtons.forEach(button => { /* showButtons 안에 있는 반복 */
+                button.addEventListener('click', function () { /*클릭 이벤트 리스너 추가*/
+                    const targetPopupId = button.getAttribute('data-target'); /*버튼 data-target 값을 씀*/
+                    const targetPopup = document.getElementById(targetPopupId); /*팝업 id를 사용해서 팝업을 가져옴*/
+                    targetPopup.style.display = 'block'; /*팝업 스타일 */
                 });
             });
 
-            closeButtons.forEach(button => {
-                button.addEventListener('click', function () {
-                    const targetPopup = button.closest('.popup');
-                    targetPopup.style.display = 'none';
+            closeButtons.forEach(button => { /* showButtons 안에 있는 반복 */
+                button.addEventListener('click', function () { /*클릭 이벤트 리스너 추가*/
+                    const targetPopup = button.closest('.popup'); /*팝업을 가져와서 닫을 수 있게*/
+                    targetPopup.style.display = 'none'; /*display 스타일 */
                 });
             });
 
-            const saveButtons = document.querySelectorAll('.save-button');
-            saveButtons.forEach((button, index) => {
-                button.addEventListener('click', function () {
-                    const name = document.getElementById(`name${index}`).value;
-                    const mbti = document.getElementById(`mbti${index}`).value;
+            const saveButtons = document.querySelectorAll('.save-button');/*save-button인 전체 선택*/
+            saveButtons.forEach((button, index) => { /*saveButtons 배열 반복*/
+                button.addEventListener('click', function () { /*클릭 이벤트 리스너 추가*/
+                    const name = document.getElementById(`name${index}`).value; /*index 이름 가져옴*/
+                    const mbti = document.getElementById(`mbti${index}`).value; 
                     const hobby = document.getElementById(`hobby${index}`).value;
                     const resolution = document.getElementById(`resolution${index}`).value;
-
-                    localStorage.setItem(`name${index}`, name);
+                    
+                    localStorage.setItem(`name${index}`, name);/*가져온 걸 localStorage에 저장*/
                     localStorage.setItem(`mbti${index}`, mbti);
                     localStorage.setItem(`hobby${index}`, hobby);
                     localStorage.setItem(`resolution${index}`, resolution);
-                    alert(`이름: ${name}, MBTI: ${mbti}, 취미: ${hobby}, 각오: ${resolution} 가 저장되었습니다.`);
+                    alert(`이름: ${name}, MBTI: ${mbti}, 취미: ${hobby}, 각오: ${resolution} 가 저장되었습니다.`); /*수정 후 저장 출력*/
+                });
+            });
+            /* 수정버튼 */                
+            const editButtons = document.querySelectorAll('.edit-button'); /*수정버튼 전체 선택*/
+            editButtons.forEach((button, index) => {    /*foreach로 반복*/
+                button.addEventListener('click', function () {   /*클릭 이벤트리스너 추가*/
+                    const name = document.getElementById(`name${index}`); /*index에 해당하는 이름 가져옴*/
+                    const mbti = document.getElementById(`mbti${index}`); //
+                    const hobby = document.getElementById(`hobby${index}`); // 
+                    const resolution = document.getElementById(`resolution${index}`);   //
+
+                    name.disabled = false; /*본인이 직접 입력 할 수 있도록*/
+                    mbti.disabled = false; //
+                    hobby.disabled = false; //
+                    resolution.disabled = false; //
+
+                    document.getElementById(`saveButton${index}`).disabled = false; /*저장 버튼 */
+                    button.disabled = true; /*클릭 버튼 비활성화 다시 수정버튼 입력 못함(지우면 계속 수정됨)*/
                 });
             });
 
-            const editButtons = document.querySelectorAll('.edit-button');
-            editButtons.forEach((button, index) => {
-                button.addEventListener('click', function () {
-                    const name = document.getElementById(`name${index}`);
-                    const mbti = document.getElementById(`mbti${index}`);
-                    const hobby = document.getElementById(`hobby${index}`);
-                    const resolution = document.getElementById(`resolution${index}`);
-
-                    name.disabled = false;
-                    mbti.disabled = false;
-                    hobby.disabled = false;
-                    resolution.disabled = false;
-
-                    document.getElementById(`saveButton${index}`).disabled = false;
-                    button.disabled = true;
-                });
-            });
-
-            const saveButton = document.getElementById('saveButton');
-            saveButton.addEventListener('click', function () {
+            const saveButton = document.getElementById('saveButton'); /*저장버튼 전체 선택*/
+            saveButton.addEventListener('click', function () {  
                 alert('저장되었습니다.');
             });
 
-            for (let index = 0; index < 5; index++) {
-                const name = localStorage.getItem(`name${index}`);
-                const mbti = localStorage.getItem(`mbti${index}`);
-                const hobby = localStorage.getItem(`hobby${index}`);
-                const resolution = localStorage.getItem(`resolution${index}`);
-                if (name) document.getElementById(`name${index}`).value = name;
-                if (mbti) document.getElementById(`mbti${index}`).value = mbti;
-                if (hobby) document.getElementById(`hobby${index}`).value = hobby;
-                if (resolution) document.getElementById(`resolution${index}`).value = resolution;
+            for (let index = 0; index < 4; index++) { //index 0~3 반복
+                const name = localStorage.getItem(`name${index}`); //저장한 localStorage에서 name을 가져옴
+                const mbti = localStorage.getItem(`mbti${index}`); //
+                const hobby = localStorage.getItem(`hobby${index}`); //
+                const resolution = localStorage.getItem(`resolution${index}`); //
+                if (name) document.getElementById(`name${index}`).value = name; //가져온 이름이 이미 있으면 화면에 표시
+                if (mbti) document.getElementById(`mbti${index}`).value = mbti; //
+                if (hobby) document.getElementById(`hobby${index}`).value = hobby; //
+                if (resolution) document.getElementById(`resolution${index}`).value = resolution; //
             }
         });
 
@@ -215,33 +211,95 @@
 
 <body>
     <div class="mytitle">
-        <h1>파인애플 피자 7조 팀원 소개</h1>
-        <button id="saveButton">저장하기</button>
+        <h1>파인애플 피자 7조 팀원 소개</h1> <!--타이틀 상단 글-->
+        <button id="saveButton">저장하기</button> <!--글 밑 저장버튼-->
     </div>
 
-    <!-- 인물 카드 4장 -->
+    <!-- 인물 카드 4장 --> 
     <div class="mycards">
-        <div id="card" class="row row-cols-1 row-cols-md-4 g-4">
-        </div>
-    </div>
+        <div class="row row-cols-1 row-cols-md-4 g-4"> <!--row-cols-md-4 = 한줄에 카드 4개씩 놓겠다. -->
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTlM5Ag_ovTNbcEGElA1Qvyb-fQb4VJ8JtKVosMZs3K1wLnc7ge"
+                        class="card-img-top" alt="..."> <!--카드 이미지를 상단에 배치-->
+                    <div class="card-body">
+                        <h5 class="card-title">조장 윤형석</h5> <!--카드 타이틀-->
+                        <p class="card-text">조장</p> <!--카드 내용-->
+                    </div>
+                    <div class="card-footer"> <!--footer를 사용해 카드 하단 꼬릿말 작성-->
+                        <small= class="text-body-secondary">의견을 적극적으로 내자.</small> 
+                    </div>
+                    <div class="card-footer"> <!--footer를 사용해 카드 하단 버튼 추가-->
+                        <button type="button" class="btn btn-primary show-popup" data-target="popup0">자세히 보기</button> <!--푸터에 포함된 버튼 , 부트스트랩 버튼 가져옴 (btn btn-primary)-->
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTlM5Ag_ovTNbcEGElA1Qvyb-fQb4VJ8JtKVosMZs3K1wLnc7ge"
+                        class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">이요한</h5>
+                        <p class="card-text">조원</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">까먹기전에 복습하자.</small>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary show-popup" data-target="popup1">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTlM5Ag_ovTNbcEGElA1Qvyb-fQb4VJ8JtKVosMZs3K1wLnc7ge"
+                        class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">김호연</h5>
+                        <p class="card-text">조원</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">모든 시간 약속을 잘 지킵시다.</small>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary show-popup" data-target="popup2">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <img src="https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTlM5Ag_ovTNbcEGElA1Qvyb-fQb4VJ8JtKVosMZs3K1wLnc7ge"
+                        class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">고태리</h5>
+                        <p class="card-text">조원</p>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-body-secondary">모르는 내용이 있다면 확실히 알아보고 넘어간다.</small>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-primary show-popup" data-target="popup3">자세히 보기</button>
+                    </div>
+                </div>
+            </div>
 
-    <!-- 자세히보기 4개-->
-    <div class="popup" id="popup0">
-        <div class="popup-content">
+            <!-- 자세히보기 4개 버튼 --> 
+    <div class="popup" id="popup0"> <!--팝업-->
+        <div class="popup-content"> <!--팝업에 표시 될 정보(아래)-->
             <h2>윤형석 TMI</h2>
-            <p>이름: <input type="text" name="name" id="name0" value="윤형석" disabled></p>
+            <p>이름: <input type="text" name="name" id="name0" value="윤형석" disabled></p> <!--id를 사용하여 스크립트 사용-->
             <p>MBTI: <input type="text" name="mbti" id="mbti0" value="ISTJ" disabled></p>
             <p>취미: <input type="text" name="hobby" id="hobby0" value="취미" disabled></p>
             <p>각오: <textarea name="resolution" id="resolution0" disabled>TMI</textarea></p>
-            <button class="close-popup btn btn-primary">닫기</button>
-            <button class="save-button btn btn-primary" id="saveButton0" disabled>저장</button>
-            <button class="edit-button btn btn-primary">수정</button>
+            <button class="close-popup btn btn-primary">닫기</button> <!--부트 스트랩 버튼-->
+            <button class="save-button btn btn-primary" id="saveButton0" disabled>저장</button>  <!--부트 스트랩 버튼-->
+            <button class="edit-button btn btn-primary">수정</button> <!--부트 스트랩 버튼-->
         </div>
     </div>
     <div class="popup" id="popup1">
         <div class="popup-content">
             <h2>이요한 TMI</h2>
-            <p>이름: <input type="text" name="name" id="name1" value="이요한" disabled></p>
+            <p>이름: <input type="text" name="name" id="name1" value="이요한" disabled></p> <!--value = 초기값-->
             <p>MBTI: <input type="text" name="mbti" id="mbti1" value="INFJ" disabled></p>
             <p>취미: <input type="text" name="hobby" id="hobby1" value="취미" disabled></p>
             <p>각오: <textarea name="resolution" id="resolution1" disabled>TMI</textarea></p>
@@ -274,7 +332,6 @@
             <button class="edit-button btn btn-primary">수정</button>
         </div>
     </div>
-
 </body>
 
 </html>
