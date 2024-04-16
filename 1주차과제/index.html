@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>파인애플피자</title>
+    <link href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkagvYbIFytU7qeo-vzEybuQz78MDWqTOR5w&s" rel="shortcut icon" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script type="module">
+        // Firebase SDK 라이브러리 가져오기
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+
+        // Firebase 구성 정보 설정
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyAtBhg7KL_kgARGzJCg2qYgz4L3_A6CIaQ",
+            authDomain: "sparta-b3cc2.firebaseapp.com",
+            projectId: "sparta-b3cc2",
+            storageBucket: "sparta-b3cc2.appspot.com",
+            messagingSenderId: "10926820272",
+            appId: "1:10926820272:web:9911763681d8ac20526475",
+            measurementId: "G-Z3GY11CYCW"
+        };
+
+
+        // Firebase 인스턴스 초기화
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        $("#savebtn").click(async function () {
+            let name = $('#name').val();
+            let getMemo = $('#getMemo').val();
+
+            let doc = {
+                'name': name,
+                'getMemo': getMemo
+            };
+
+            await addDoc(collection(db, "gestBooks"), doc);
+            alert('저장완료!');
+            window.location.reload();
+        })
+
+
+        let docs = await getDocs(collection(db, "gestBooks"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            let name = row['name'];
+            let getMemo = row['getMemo'];
+
+            let temp_html = `            
+                <div class="col">
+                            <div class="cards">
+                                <div class="form-floating">
+                                    <input type="text" class="name" disabled>
+                                    <label for="floatingInputDisabled">${name}</label>
+                                </div>
+                                <div class="form-floating">
+                                    <textarea class="Mygetmemo" disabled></textarea>
+                                    <label for="floatingTextareaDisabled" >${getMemo}</label>
+                                </div>
+                                <button id="gestBookedit">수정</button>
+                            <button id="gestBookdelete">삭제</button>
+                            </div>
+                        </div>`;
+
+            $('#Message').append(temp_html);
+        });
+
+
+
+    </script>
+
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
+
+        .jua-regular {
+            font-family: "Jua", sans-serif;
+        }
+
+        * {
+            font-family: "Jua", sans-serif;
+        }
+
+
+        .All {
+            width: 970px;
+            height: 1200px;
+            margin: 10% auto;
+            padding: 3%;
+            border: 1px solid black;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        .inbox {
+            display: flex;
+
+        }
+
+        h1,
+        h3 {
+            text-align: center;
+        }
+
+        h3 {
+            margin-bottom: 30px;
+        }
+
+        h4 {
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+
+        .imgAll {
+            width: 50%;
+            border-radius: 5%;
+            margin-right: 10px;
+        }
+
+        .inright {
+            width: 450px;
+        }
+
+        .inright p {
+            line-height: 10px;
+        }
+
+        .All_bottom {
+            width: 970px;
+            height: 290px;
+            margin: 30px auto;
+            position: relative;
+            display: flex;
+        }
+
+        .All_bottom img {
+            width: 200px;
+            height: 147px;
+
+        }
+
+        .All_bottom p {
+            line-height: 10px;
+        }
+
+        .bottomIn {
+            width: 220px;
+            height: 290px;
+            border: 1px solid black;
+            padding: 10px 10px;
+            box-sizing: border-box;
+            margin-right: 5px;
+        }
+
+        .bottomIn p:nth-child(2) {
+            margin-top: 20px;
+        }
+
+        .bottomIn button,
+        .bottomIn a {
+            float: right;
+            background-color: blue;
+            color: white;
+            cursor: pointer;
+            padding: 4px;
+            text-decoration: none;
+        }
+
+        #gestBook div {
+            margin-right: 10px;
+        }
+
+        #gestBook div:first-child {
+            margin-top: 5px;
+            width: 180px;
+        }
+
+        #gestBook div:nth-child(2) {
+            width: 500px;
+        }
+
+        #gestBook button {
+            margin-top: 5px;
+            background-color: blue;
+            color: white;
+        }
+
+        #gestBook {
+            width: 900px;
+            height: 50px;
+            display: flex;
+            margin: 10px auto;
+        }
+
+        #MygestBookbox input {
+            line-height: 45px;
+        }
+
+        .Bookh4 {
+            text-align: center;
+        }
+
+        .cards {
+            width: 900px;
+            height: 50px;
+            display: flex;
+            justify-content: left;
+            margin-top: 20px;
+        }
+
+        .cards div:nth-child(1) {
+            margin-right: 10px;
+        }
+
+        .cards div:nth-child(2),
+        .cards div:nth-child(2) textarea,
+        .cards div:nth-child(2) label {
+            width: 500px;
+        }
+    </style>
+
+
+</head>
+
+
+<body>
+    <div class="All">
+        <div class="All-top">
+            <h1>소개 with me</h1>
+            <h3>Node.js 7조 파인애플피자</h3>
+            <div class="inbox">
+                <img class="imgAll" src="./img/스크린샷 2024-04-15 135727.png" alt="파인애플피자">
+                <div class="inright">
+                    <h4>Team. 파인애플피자</h4>
+                    <p>팀 소개 : 개발자가 되고 싶은 5명이 함께 협업을 배워나가요!</p>
+                    <p>팀 목표 : 프로젝트 완성!</p>
+                    <p>팀 약속 : 12:00 ~ 13:00 (점심시간) / 18:00 ~ 19:00 (저녁시간)</p>
+                    <h4>팀 규칙</h4>
+                    <p>윤형석 : 의견을 적극적으로 내자.</p>
+                    <p>고태리 : 모르는 내용이 있다면 확실히 알아보고 넘어간다.</p>
+                    <p>이요한 : 까먹기 전에 복습하자.</p>
+                    <p>김호연 : 모든 시간 약속을 잘 지킵시다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="All_bottom">
+            <div class="bottomIn">
+                <img src="./img/형석.png" alt="형석">
+                <p>윤형석</p>
+                <p>MBTI</p>
+                <p>자기소개</p>
+                <a href="./index1.html" target="_blank" alt="형석 상세페이지">introduce</a>
+            </div>
+            <div class="bottomIn">
+                <img src="./img/태리.png" alt="태리">
+                <p>고태리</p>
+                <p>MBTI</p>
+                <p>자기소개</p>
+                <a href="./index2.html" target="_blank" alt="태리 상세페이지">introduce</a>
+            </div>
+            <div class="bottomIn">
+                <img src="./img/요한.png" alt="요한">
+                <p>이요한</p>
+                <p>MBTI</p>
+                <p>자기소개</p>
+                <a href="./index3.html" target="_blank" alt="요한 상세페이지">introduce</a>
+            </div>
+            <div class="bottomIn">
+                <img src="./img/호연.png" alt="호연">
+                <p>김호연</p>
+                <p>MBTI</p>
+                <p>자기소개</p>
+                <a href="./index4.html" target="_blank" alt="호연 상세페이지">introduce</a>
+            </div>
+        </div>
+        <div id="MygestBookbox">
+            <h4 class="Bookh4">방명록</h4>
+            <div id="gestBook">
+                <div class="form-floating mb-1">
+                    <input type="text" class="name" id="name" placeholder="Leave a name here">
+                    <label for="floatingInput"></label>
+                </div>
+                <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="getMemo"></textarea>
+                    <label for="floatingTextarea">Comments</label>
+                </div>
+                <button id="savebtn">방명록 남기기</button>
+            </div>
+            <div class="myMessage">
+                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
+                    <div class="col">
+                        <div class="cards">
+                            <div class="form-floating">
+                                <input type="text" class="name" disabled>
+                                <label for="floatingInputDisabled">이름</label>
+                            </div>
+                            <div class="form-floating">
+                                <textarea class="Mygetmemo" disabled></textarea>
+                                <label for="floatingTextareaDisabled">방명록을 남겨주세요.</label>
+                            </div>
+                            <button id="gestBookedit">수정</button>
+                            <button id="gestBookdelete">삭제</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
