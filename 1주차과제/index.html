@@ -94,7 +94,7 @@
 
         .All {
             width: 970px;
-            height: 1200px;
+            height: 820px;
             margin: 10% auto;
             padding: 3%;
             border: 1px solid black;
@@ -176,57 +176,7 @@
             text-decoration: none;
         }
 
-        #gestBook div {
-            margin-right: 10px;
-        }
-
-        #gestBook div:first-child {
-            margin-top: 5px;
-            width: 180px;
-        }
-
-        #gestBook div:nth-child(2) {
-            width: 500px;
-        }
-
-        #gestBook button {
-            margin-top: 5px;
-            background-color: blue;
-            color: white;
-        }
-
-        #gestBook {
-            width: 900px;
-            height: 50px;
-            display: flex;
-            margin: 10px auto;
-        }
-
-        #MygestBookbox input {
-            line-height: 45px;
-        }
-
-        .Bookh4 {
-            text-align: center;
-        }
-
-        .cards {
-            width: 900px;
-            height: 50px;
-            display: flex;
-            justify-content: left;
-            margin-top: 20px;
-        }
-
-        .cards div:nth-child(1) {
-            margin-right: 10px;
-        }
-
-        .cards div:nth-child(2),
-        .cards div:nth-child(2) textarea,
-        .cards div:nth-child(2) label {
-            width: 500px;
-        }
+ 
     </style>
 
 
@@ -283,38 +233,7 @@
                 <a href="./index4.html" target="_blank" alt="호연 상세페이지">introduce</a>
             </div>
         </div>
-        <div id="MygestBookbox">
-            <h4 class="Bookh4">방명록</h4>
-            <div id="gestBook">
-                <div class="form-floating mb-1">
-                    <input type="text" class="name" id="name" placeholder="Leave a name here">
-                    <label for="floatingInput"></label>
-                </div>
-                <div class="form-floating">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="getMemo"></textarea>
-                    <label for="floatingTextarea">Comments</label>
-                </div>
-                <button id="savebtn">방명록 남기기</button>
-            </div>
-            <div class="myMessage">
-                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
-                    <div class="col">
-                        <div class="cards">
-                            <div class="form-floating">
-                                <input type="text" class="name" disabled>
-                                <label for="floatingInputDisabled">이름</label>
-                            </div>
-                            <div class="form-floating">
-                                <textarea class="Mygetmemo" disabled></textarea>
-                                <label for="floatingTextareaDisabled">방명록을 남겨주세요.</label>
-                            </div>
-                            <button id="gestBookedit">수정</button>
-                            <button id="gestBookdelete">삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </body>
 
