@@ -16,7 +16,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getFirestore, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
-        import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
 
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -56,6 +56,38 @@
             temp.remove();
         })
 
+        // 수정 버튼 클릭 시 방명록 수정
+        $(document).on('click', '#gestBookedit', async function () {
+            // 현재 클릭된 수정 버튼이 속한 .myMessage 요소를 찾음
+            let temp = $(this).closest('.myMessage');
+
+            let html = temp.data('message-id');
+
+            let isDisabled = temp.find('.name').prop('disabled')
+            let guest_name = temp.find('.name').val();
+            let memo = temp.find('.Mygetmemo').val();
+
+            if (isDisabled) {
+                // 이름, 방문록 내용을 수정 가능하게 변경
+                temp.find('.name').prop('disabled', false);
+                temp.find('.Mygetmemo').prop('disabled', false);
+            }
+            else {
+                // 수정한 이름, 방문록 내용을 DB에 적용
+                const update_doc = doc(db, "Guestbook_YH", html);
+
+                await updateDoc(update_doc, {
+                    'name': guest_name,
+                    'getMemo': memo
+                });
+
+                console.log('edit complete!')
+                alert('수정 완료')
+                window.location.reload()
+            }
+
+        });
+
         $("#savebtn").click(async function () {
             let name = $('#name').val();
             let getMemo = $('#getMemo').val();
@@ -82,13 +114,11 @@
                 <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
                     <div class="col">
                         <div class="cards">
-                            <div class="form-floating">
-                                <input type="text" class="name" disabled>
-                                <label for="floatingInputDisabled">${name}</label>
+                            <div class="form-floating">        
+                                <input type="text" class="name" value=${name} disabled>
                             </div>
                             <div class="form-floating">
-                                <textarea class="Mygetmemo" disabled></textarea>
-                                <label for="floatingTextareaDisabled">${getMemo}</label>
+                                <input type="textarea" style="width:200px;" class="Mygetmemo" value=${getMemo} disabled>  
                             </div>
                             <button id="gestBookedit">수정</button>
                             <button id="gestBookdelete">삭제</button>
