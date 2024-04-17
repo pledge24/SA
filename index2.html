@@ -14,7 +14,7 @@
 
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
@@ -40,6 +40,22 @@
         $('#winClose').click(function () {
             window.close();
         })
+
+        // 삭제 버튼 클릭 시 방명록 삭제 // .on = 이벤트 바인딩 (클릭, 삭제버튼) async function 함수 = 반환 
+        $(document).on('click', '#gestBookdelete', async function () {
+            // .closest = 현재 클릭된 삭제 버튼의 가까운 .myMessage에 내용을 삭제
+            let temp = $(this).closest('.myMessage');
+
+            // 삭제할  message-id 가져오는 단계
+            let html = temp.data('message-id');
+
+            // deleteDoc을 사용하여 삭제 db = firestore 데이터 베이스 , await = async function에만 사용 
+            await deleteDoc(doc(db, "Guestbook_TR", html));
+
+            // 선택한것을 삭제하는 것
+            temp.remove();
+        })
+
         $("#savebtn").click(async function () {
             let name = $('#name').val();
             let getMemo = $('#getMemo').val();
@@ -56,12 +72,13 @@
         let docs = await getDocs(collection(db, "Guestbook_TR"));
         docs.forEach((doc) => {
             let row = doc.data();
+            let id = doc.id; // 방명록의 ID
 
             let name = row['name'];
             let getMemo = row['getMemo'];
-
+            // data-message-id="${id}" id 데이터 속성 추가
             let temp_html = `
-            <div class="myMessage">
+            <div class="myMessage" data-message-id="${id}">
                 <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
                     <div class="col">
                         <div class="cards">
@@ -82,6 +99,7 @@
             $('#Message').append(temp_html);
         });
 
+
     </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
@@ -99,8 +117,8 @@
         }
 
         .All {
-            width: 550px;
-            height: auto;
+            width: 500px;
+            height: 850px;
             margin: 20px auto;
             border: 1px solid black;
             padding: 10px;
@@ -127,7 +145,7 @@
         }
 
         .All .line {
-            width: 530px;
+            width: 480px;
             padding-top: 10px;
             border-top: 2px dotted black;
             text-align: center;
@@ -224,8 +242,10 @@
 
 
         #winClose {
-            position: sticky;
+            float: right;
             padding: 2px;
+            margin-top: 150px;
+            margin-right: 10px;
             background-color: blue;
             color: white;
             cursor: pointer;
@@ -240,7 +260,7 @@
         <img src="./img/태리.png" alt="태리사진">
         <h2>고태리</h2>
         <br>
-        <h3>풀스택 개발자</h3>
+        <h3>희망직종</h3>
         <br>
         <h4>Introduce</h4>
         <div class="line">안녕하세요. 다양한 웹디자인이 가능한 풀스택 개발자가 목표인 고태리라고 합니다.</div>
@@ -258,35 +278,18 @@
             <div id="gestBook">
                 <div class="form-floating mb-1">
                     <input type="text" class="name" id="name">
-                    <label for="floatingInput"></label>
+                    <label for="floatingInput">이름</label>
                 </div>
                 <div class="form-floating">
                     <textarea class="form-control" id="getMemo"></textarea>
-                    <label for="floatingTextarea"></label>
+                    <label for="floatingTextarea">방명록을 남겨주세요.</label>
                 </div>
                 <button id="savebtn">방명록 남기기</button>
             </div>
             <div class="myMessage">
-                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
-                    <div class="col">
-                        <div class="cards">
-                            <div class="form-floating">
-                                <input type="text" class="name" disabled>
-                                <label for="floatingInputDisabled">이름</label>
-                            </div>
-                            <div class="form-floating">
-                                <textarea class="Mygetmemo" disabled></textarea>
-                                <label for="floatingTextareaDisabled">방명록을 남겨주세요.</label>
-                            </div>
-                            <button id="gestBookedit">수정</button>
-                            <button id="gestBookdelete">삭제</button>
-                        </div>
-                    </div>
-                </div>
+                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1"></div>
             </div>
         </div>
         <a id="winClose" href="javascript:history.back()" target="_self">뒤로가기</a>
     </div>
 </body>
-
-</html>

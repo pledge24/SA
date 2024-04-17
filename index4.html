@@ -11,9 +11,10 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script type="module">
+
         // Firebase SDK 라이브러리 가져오기
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-        import { getFirestore } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getFirestore, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
         import { getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
@@ -29,9 +30,31 @@
             measurementId: "G-T3TYX2H41J"
         };
 
+
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+
+
+        //창닫기
+        $('#winClose').click(function () {
+            window.close();
+        })
+
+        // 삭제 버튼 클릭 시 방명록 삭제 // .on = 이벤트 바인딩 (클릭, 삭제버튼) async function 함수 = 반환 
+        $(document).on('click', '#gestBookdelete', async function () {
+            // .closest = 현재 클릭된 삭제 버튼의 가까운 .myMessage에 내용을 삭제
+            let temp = $(this).closest('.myMessage');
+
+            // 삭제할  message-id 가져오는 단계
+            let html = temp.data('message-id');
+
+            // deleteDoc을 사용하여 삭제 db = firestore 데이터 베이스 , await = async function에만 사용 
+            await deleteDoc(doc(db, "Guestbook_HY", html));
+
+            // 선택한것을 삭제하는 것
+            temp.remove();
+        })
 
         $("#savebtn").click(async function () {
             let name = $('#name').val();
@@ -49,12 +72,13 @@
         let docs = await getDocs(collection(db, "Guestbook_HY"));
         docs.forEach((doc) => {
             let row = doc.data();
+            let id = doc.id; // 방명록의 ID
 
             let name = row['name'];
             let getMemo = row['getMemo'];
-
+            // data-message-id="${id}" id 데이터 속성 추가
             let temp_html = `
-            <div class="myMessage">
+            <div class="myMessage" data-message-id="${id}">
                 <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
                     <div class="col">
                         <div class="cards">
@@ -74,8 +98,9 @@
             </div>`;
             $('#Message').append(temp_html);
         });
-    </script>
 
+
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Jua&display=swap');
 
@@ -92,8 +117,8 @@
         }
 
         .All {
-            width: 550px;
-            height: auto;
+            width: 500px;
+            height: 850px;
             margin: 20px auto;
             border: 1px solid black;
             padding: 10px;
@@ -120,7 +145,7 @@
         }
 
         .All .line {
-            width: 530px;
+            width: 480px;
             padding-top: 10px;
             border-top: 2px dotted black;
             text-align: center;
@@ -210,14 +235,17 @@
         }
 
         .cards .form-floating label {
+
             margin-left: 20px;
             display: flex;
         }
 
 
         #winClose {
-            position: sticky;
+            float: right;
             padding: 2px;
+            margin-top: 150px;
+            margin-right: 10px;
             background-color: blue;
             color: white;
             cursor: pointer;
@@ -235,21 +263,21 @@
         <h3>희망직종</h3>
         <br>
         <h4>Introduce</h4>
-        <div class="line">안녕하세요 개발자가 되고 싶은 프로젝트 7조 김호연입니다. 
+        <div class="line">안녕하세요 개발자가 되고 싶은 프로젝트 7조 김호연입니다.
             <br>
-            좌우명인 '해보고 후회하자'는 경험이 있어야 후회도 할 수 있다는 뜻으로 
+            좌우명인 '해보고 후회하자'는 경험이 있어야 후회도 할 수 있다는 뜻으로
             <br>
-            생각만 앞서 시도하지 않는 성격을 고치고자 가슴에 새긴 말입니다
+            생각만 앞서 시도하지 않는 성격을 고치고자 가슴에 새긴 말입니다.
             <br>
-            캠프 기간에도 이 한 마디를 근간으로 배워나가겠습니다. 감사합니다.   
+            캠프 기간에도 이 한 마디를 근간으로 배워나가겠습니다. 감사합니다.
         </div>
         <h4>My favorite & My hobby</h4>
         <div class="line">좋아하는 것은 세상에서 절대 일어나지 않은 일에 대해 상상하는 걸 좋아하고, 취미는 공연 감상(발레,뮤지컬 등)과 그림연습, 그리고 각종 패키지 게임입니다.</div>
         <h4>My SNS</h4>
         <div class="line">
-            블로그 : <a href="https://blueclorox.tistory.com/" target="_blank">https://blueclorox.tistory.com/</a> 
+            블로그 : <a href="https://blueclorox.tistory.com/" target="_blank">https://blueclorox.tistory.com/</a>
             <br>
-            깃허브 : <a href="https://github.com/blueclorox" target="_blank">https://github.com/blueclorox</a>  
+            깃허브 : <a href="https://github.com/blueclorox" target="_blank">https://github.com/blueclorox</a>
         </div>
 
         <div id="MygestBookbox">
@@ -257,35 +285,18 @@
             <div id="gestBook">
                 <div class="form-floating mb-1">
                     <input type="text" class="name" id="name">
-                    <label for="floatingInput"></label>
+                    <label for="floatingInput">이름</label>
                 </div>
                 <div class="form-floating">
                     <textarea class="form-control" id="getMemo"></textarea>
-                    <label for="floatingTextarea"></label>
+                    <label for="floatingTextarea">방명록을 남겨주세요.</label>
                 </div>
                 <button id="savebtn">방명록 남기기</button>
             </div>
             <div class="myMessage">
-                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
-                    <div class="col">
-                        <div class="cards">
-                            <div class="form-floating">
-                                <input type="text" class="name" disabled>
-                                <label for="floatingInputDisabled">이름</label>
-                            </div>
-                            <div class="form-floating">
-                                <textarea class="Mygetmemo" disabled></textarea>
-                                <label for="floatingTextareaDisabled">방명록을 남겨주세요.</label>
-                            </div>
-                            <button id="gestBookedit">수정</button>
-                            <button id="gestBookdelete">삭제</button>
-                        </div>
-                    </div>
-                </div>
+                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1"></div>
             </div>
         </div>
         <a id="winClose" href="javascript:history.back()" target="_self">뒤로가기</a>
     </div>
 </body>
-
-</html>
