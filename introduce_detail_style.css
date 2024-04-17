@@ -70,6 +70,7 @@ h4 {
 #gestBook button {
     background-color: blue;
     color: white;
+    height: 53px;
 }
 
 #gestBook {
@@ -87,11 +88,16 @@ h4 {
 #MygestBookbox .form-control,
 #MygestBookbox #name label {
     width: 200px;
-    height: 50px;
+    height: 53px;
 }
 
 #MygestBookbox .form-control {
     padding-top: 15px;
+}
+
+#MygestBookbox #name{
+    padding-left: 10px;
+    padding-top: 4px;
 }
 
 #MygestBookbox #name label {
@@ -118,6 +124,7 @@ h4 {
 .cards .name input {
     width: 200px;
     height: 50px;
+    padding-left: 10px;
 }
 
 .cards .form-floating label {
@@ -129,6 +136,7 @@ h4 {
     width: 200px;
     height: 50px;
     box-sizing: border-box;
+    padding-left: 10px;
 }
 
 .cards .form-floating label {
