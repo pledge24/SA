@@ -36,7 +36,6 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-
         //창닫기
         $('#winClose').click(function () {
             window.close();
@@ -49,12 +48,12 @@
                 'name': name,
                 'getMemo': getMemo
             };
-            await addDoc(collection(db, "Team_Guestbook"), doc);
+            await addDoc(collection(db, "Guestbook_HS"), doc);
             alert('저장 완료!');
             window.location.reload()
         })
 
-        let docs = await getDocs(collection(db, "Team_Guestbook"));
+        let docs = await getDocs(collection(db, "Guestbook_HS"));
         docs.forEach((doc) => {
             let row = doc.data();
 
@@ -82,7 +81,6 @@
             </div>`;
             $('#Message').append(temp_html);
         });
-
 
     </script>
     <style>
