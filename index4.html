@@ -45,16 +45,23 @@
 
         // 방명록 남기기 버튼 클릭 시 방명록 생성 (POST METHOD)
         $("#savebtn").click(async function () {
-            let name = $('#name').val();
-            let getMemo = $('#getMemo').val();
+            let guest_name = $('#name').val();
+            let guest_memo = $('#getMemo').val();
 
             let doc = {
-                'name': name,
-                'getMemo': getMemo
+                'name': guest_name,
+                'getMemo': guest_memo
             };
-            await addDoc(collection(db, "Guestbook_HY"), doc);
-            alert('저장 완료!');
-            window.location.reload()
+
+            if (guest_name.length > 0 && guest_memo.length > 0) {
+                await addDoc(collection(db, "Guestbook_HY"), doc);
+                alert('저장 완료!');
+                window.location.reload();
+            }
+            else {
+                alert('이름 또는 방명록의 길이가 0 이상이어야 합니다.');
+            }
+
         });
 
         // 상세페이지 접근 시 방명록 불러오기 (GET METHOD)
@@ -72,10 +79,10 @@
                     <div class="col">
                         <div class="cards">
                             <div class="form-floating">        
-                                <input type="text" class="name" value=${name} disabled>
+                                <input type="text" class="name" value="${name}" disabled>
                             </div>
                             <div class="form-floating">
-                                <input type="textarea" style="width:200px;" class="Mygetmemo" value=${getMemo} disabled>  
+                                <input type="textarea" style="width:200px;" class="Mygetmemo" value="${getMemo}" disabled>  
                             </div>
                             <button id="gestBookedit">수정</button>
                             <button id="gestBookdelete">삭제</button>
@@ -95,7 +102,7 @@
 
             let isDisabled = temp.find('.name').prop('disabled')
             let guest_name = temp.find('.name').val();
-            let memo = temp.find('.Mygetmemo').val();
+            let guest_memo = temp.find('.Mygetmemo').val();
 
             if (isDisabled) {
                 // 이름, 방문록 내용을 수정 가능하게 변경
@@ -106,14 +113,21 @@
                 // 수정한 이름, 방문록 내용을 DB에 적용
                 const update_doc = doc(db, "Guestbook_HY", html);
 
-                await updateDoc(update_doc, {
-                    'name': guest_name,
-                    'getMemo': memo
-                });
+                if (guest_name.length > 0 && guest_memo.length > 0) {
+                    await updateDoc(update_doc, {
+                        'name': guest_name,
+                        'getMemo': guest_memo
+                    });
 
-                console.log('edit complete!')
-                alert('수정 완료')
-                window.location.reload()
+                    console.log('edit complete!')
+                    alert('수정 완료')
+                    window.location.reload()
+                }
+                else {
+                    alert('이름 또는 방명록의 길이가 0이상이어야 합니다.');
+                }
+
+
             }
 
         });
