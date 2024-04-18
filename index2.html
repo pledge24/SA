@@ -10,7 +10,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="introduce_detail_style.css">
+    <link rel="stylesheet" href="introduce_detail_style.css"> <!-- 상세페이지 CSS 가져오기 -->
+
     <script type="module">
 
         // Firebase SDK 라이브러리 가져오기
@@ -40,27 +41,52 @@
         //창닫기
         $('#winClose').click(function () {
             window.close();
-        })
+        });
 
-        // 삭제 버튼 클릭 시 방명록 삭제 // .on = 이벤트 바인딩 (클릭, 삭제버튼) async function 함수 = 반환 
-        $(document).on('click', '#gestBookdelete', async function () {
+        // 방명록 남기기 버튼 클릭 시 방명록 생성 (POST METHOD)
+        $("#savebtn").click(async function () {
+            let name = $('#name').val();
+            let getMemo = $('#getMemo').val();
 
-            if (confirm("정말로 삭제하시겠습니까?")) {
-            // .closest = 현재 클릭된 삭제 버튼의 가까운 .myMessage에 내용을 삭제
-            let temp = $(this).closest('.myMessage');
+            let doc = {
+                'name': name,
+                'getMemo': getMemo
+            };
+            await addDoc(collection(db, "Guestbook_TR"), doc);
+            alert('저장 완료!');
+            window.location.reload()
+        });
 
-            // 삭제할  message-id 가져오는 단계
-            let html = temp.data('message-id');
+        // 상세페이지 접근 시 방명록 불러오기 (GET METHOD)
+        let docs = await getDocs(collection(db, "Guestbook_TR"));
+        docs.forEach((doc) => {
+            let row = doc.data();
+            let id = doc.id; // 방명록의 ID
 
-            // deleteDoc을 사용하여 삭제 db = firestore 데이터 베이스 , await = async function에만 사용 
-            await deleteDoc(doc(db, "Guestbook_TR", html));
+            let name = row['name'];
+            let getMemo = row['getMemo'];
+            // data-message-id="${id}" id 데이터 속성 추가
+            let temp_html = `
+            <div class="myMessage" data-message-id="${id}">
+                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
+                    <div class="col">
+                        <div class="cards">
+                            <div class="form-floating">        
+                                <input type="text" class="name" value=${name} disabled>
+                            </div>
+                            <div class="form-floating">
+                                <input type="textarea" style="width:200px;" class="Mygetmemo" value=${getMemo} disabled>  
+                            </div>
+                            <button id="gestBookedit">수정</button>
+                            <button id="gestBookdelete">삭제</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+            $('#Message').append(temp_html);
+        });
 
-            // 선택한것을 삭제하는 것
-            temp.remove();
-            }
-        })
-
-        // 수정 버튼 클릭 시 방명록 수정
+        // 수정 버튼 클릭 시 방명록 수정 (UPDATE METHOD)
         $(document).on('click', '#gestBookedit', async function () {
             // 현재 클릭된 수정 버튼이 속한 .myMessage 요소를 찾음
             let temp = $(this).closest('.myMessage');
@@ -92,49 +118,27 @@
 
         });
 
-        $("#savebtn").click(async function () {
-            let name = $('#name').val();
-            let getMemo = $('#getMemo').val();
+        // 삭제 버튼 클릭 시 방명록 삭제 (DELETE METHOD)
+        $(document).on('click', '#gestBookdelete', async function () { // .on = 이벤트 바인딩 (클릭, 삭제버튼) async function 함수 = 반환 
 
-            let doc = {
-                'name': name,
-                'getMemo': getMemo
-            };
-            await addDoc(collection(db, "Guestbook_TR"), doc);
-            alert('저장 완료!');
-            window.location.reload()
-        })
+            if (confirm("정말로 삭제하시겠습니까?")) {
 
-        let docs = await getDocs(collection(db, "Guestbook_TR"));
-        docs.forEach((doc) => {
-            let row = doc.data();
-            let id = doc.id; // 방명록의 ID
+                // .closest = 현재 클릭된 삭제 버튼의 가까운 .myMessage에 내용을 삭제
+                let temp = $(this).closest('.myMessage');
 
-            let name = row['name'];
-            let getMemo = row['getMemo'];
-            // data-message-id="${id}" id 데이터 속성 추가
-            let temp_html = `
-            <div class="myMessage" data-message-id="${id}">
-                <div id="Message" class="row row-cols-1 row-cols-md-1 g-1">
-                    <div class="col">
-                        <div class="cards">
-                            <div class="form-floating">        
-                                <input type="text" class="name" value=${name} disabled>
-                            </div>
-                            <div class="form-floating">
-                                <input type="textarea" style="width:200px;" class="Mygetmemo" value=${getMemo} disabled>  
-                            </div>
-                            <button id="gestBookedit">수정</button>
-                            <button id="gestBookdelete">삭제</button>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-            $('#Message').append(temp_html);
+                // 삭제할 message-id 가져오는 단계
+                let html = temp.data('message-id');
+
+                // deleteDoc을 사용하여 삭제 db = firestore 데이터 베이스 , await = async function에만 사용 
+                await deleteDoc(doc(db, "Guestbook_TR", html));
+
+                // 선택한것을 삭제하는 것
+                temp.remove();
+            }
         });
 
     </script>
-    
+
 </head>
 
 <body>
@@ -151,9 +155,9 @@
         <div class="line">고양이와 함께 노는 걸 좋아하고, 자기개발하는 것이 취미입니다.</div>
         <h4>My SNS</h4>
         <div class="line">
-            블로그 : <a href="https://blog.naver.com/taeri0327" target="_blank">https://blog.naver.com/taeri0327</a> 
+            블로그 : <a href="https://blog.naver.com/taeri0327" target="_blank">https://blog.naver.com/taeri0327</a>
             <br>
-            깃허브 : <a href="https://github.com/taeri0327" target="_blank">https://github.com/taeri0327</a>  
+            깃허브 : <a href="https://github.com/taeri0327" target="_blank">https://github.com/taeri0327</a>
         </div>
 
         <div id="MygestBookbox">
@@ -165,7 +169,8 @@
                 </div>
                 <div class="form-floating">
                     <form><textarea class="form-control" id="getMemo" placeholder="방명록을 남겨주세요."></textarea>
-                    <label for="floatingTextarea"></label></form>
+                        <label for="floatingTextarea"></label>
+                    </form>
                 </div>
                 <button id="savebtn">방명록 남기기</button>
             </div>
