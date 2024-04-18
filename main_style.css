@@ -9,6 +9,13 @@
 }
 
 
+.hov-anim{
+    /* 냥켓 css */
+    float: right;
+    width: 150px; 
+    height: auto; 
+}
+
 .All {
     width: 970px;
     height: 820px;
